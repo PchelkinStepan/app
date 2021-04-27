@@ -1,0 +1,91 @@
+import React from "react";
+import ProductCard from "../../Components/Card";
+import Button from "../../Components/Common/Button";
+
+interface IProps {
+  title: string;
+  limit: number;
+}
+interface IState {
+  count: number;
+  increment: number;
+  decrement: number;
+}
+
+class CustomCounter extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = { count: 0, increment: 1, decrement: 1 };
+  }
+
+  // static getDerivedStateFromProps(nextProps: IProps, prevState: IState): any {
+  //   console.log(nextProps);
+  //   console.log(prevState);
+  //   if (prevState.count === 3) {
+  //     return { increment: 2 };
+  //   }
+  //   if (prevState.count === 9) {
+  //     return { increment: 3 };
+  //   }
+  //   return null;
+  // }
+
+  // shouldComponentUpdate(nextProps: IProps, nextState: IState): boolean {
+  //   console.log(nextProps);
+  //   console.log(nextState);
+  //   const { count } = this.state;
+  //   if (nextState.count !== count) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  // componentDidUpdate(prevProps: IProps, prevState: IState) {
+  //   console.log("update");
+  // }
+
+  // componentWillUnmount() {
+  //   console.log("unmount");
+  // }
+
+  // componentDidMount() {
+  //   console.log("CustomCounter mount");
+  // }
+
+  incrementHandle = (increment: number) => () => {
+    const { count } = this.state;
+    this.setState({ count: count + increment });
+  };
+
+  decrementHandle = (decrement: number) => () => {
+    const { count } = this.state;
+    this.setState({ count: count - decrement });
+  };
+
+  render() {
+    const { title, limit } = this.props;
+    const { count, increment, decrement } = this.state;
+
+    return (
+      <>
+        <ProductCard title={title} count={count}>
+          <Button
+            title={`Убрать ${decrement} ${title}`}
+            count={count}
+            handler={this.decrementHandle(decrement)}
+            type="decrement"
+            limit={limit}
+          />
+          <Button
+            title={`Добавить ${increment} ${title}`}
+            count={count}
+            handler={this.incrementHandle(increment)}
+            type="increment"
+            limit={limit}
+          />
+        </ProductCard>
+      </>
+    );
+  }
+}
+export default CustomCounter;
